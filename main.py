@@ -9,7 +9,11 @@ from displayPuzzle import displayPuzzle
 from checker import *
 from solver import *
 
-puzObj = ReadPuzzle(sys.argv[1])
+try:
+    puzObj = ReadPuzzle(sys.argv[1])
+except IndexError:
+    puzObj = ReadPuzzle("Puzzles/easy032824")
+    
 puzObj = puzObj.createPuzzleMatrix()
 print("Original Puzzle: ")
 displayPuzzle(puzObj)
