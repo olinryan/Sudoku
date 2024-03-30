@@ -117,6 +117,19 @@ def callSquareIndex(puzzle, row, col):
     
     return square
     
+def callAdjacentIndex(index):
+    # input an index and return the other two indices
+    # in same square row
+
+    if index in [0,3,6]:
+        return index + 1, index + 2
+    elif index in [1,4,7]:
+        return index - 1, index + 1
+    elif index in [2,5,8]:
+        return index - 2, index - 1
+    else:
+        raise ValueError("Index out of bounds for 9x9 puzzle")
+
 def checkPuzzle(puzzle):
     # check entire puzzle
     for i in range(1,10):
