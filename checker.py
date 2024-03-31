@@ -4,6 +4,7 @@ and the whole puzzle
 '''
 
 import numpy as np
+import math
 
 def checkRow(puzzleRow):
     # check a single row of a sudoku puzzle
@@ -130,6 +131,16 @@ def callAdjacentIndex(index):
     else:
         raise ValueError("Index out of bounds for 9x9 puzzle")
 
+def callPuzzlePosition(position):
+    # Given a position 0-80, return the row and column
+    col = position % 9
+    row = math.floor(position / 9)
+    return row,col
+
+def getPuzzleIndex(row,col):
+    # Given an index (row,col), return position 0-80
+    return row*9 + col
+
 def checkPuzzle(puzzle):
     # check entire puzzle
     for i in range(1,10):
@@ -137,3 +148,16 @@ def checkPuzzle(puzzle):
         if not checkCol(puzzle[:,i-1]): return False
         if not checkSquare(callSquare(puzzle,i)): return False
     return True
+
+def checkRules(puzzle):
+    # check that no rules are violated
+    for i in range(9):
+        row = [i for i in puzzle[i] if not i == 0]
+        col = [i for i in puzzle[:,i] if not i == 0]
+        squ = [i for i in callSquare(puzzle,i+1).reshape(-1).tolist() if not i == 0]
+        if len(row) != len(set(row)): return False
+        if len(col) != len(set(col)): return False
+        if len(squ) != len(set(squ)): return False
+    
+    return True
+        

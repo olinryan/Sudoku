@@ -106,6 +106,56 @@ def solveMethod2(puzzle):
         print("Solver is stuck using adjacent solve method.")
         return puzzle, changed
 
+def solveBacktrackMethod(puzzle):
+    # solver places number in the grid starting in upper left and backtracks when 
+    # number is invalid, backtrack will increment by one
+    pos = 0
+    origPuzz = np.array([])     # Array with original indices
 
-                
+    # nested loop for each element:
+    for row in range(9):
+        for col in range(9):
+            if not puzzle[row][col] == 0:
+                origPuzz = np.append(origPuzz, getPuzzleIndex(row,col))
+
+    print(origPuzz)
+    while not checkPuzzle(puzzle):
+        row,col = callPuzzlePosition(pos)
+        if not pos in origPuzz:
+            if not puzzle[row][col] > 9:
+                puzzle[row][col] = puzzle[row][col] + 1
+                displayPuzzle(puzzle)
+                print(pos)
+            else:
+                puzzle[row][col] = 0
+                pos -= 1
+                if pos in origPuzz:
+                    pos -= 1
                     
+
+        else:
+            pos += 1
+
+                puzzle[row][col] = 0
+                pos -= 1
+                if pos in origPuzz: pos -= 1
+                displayPuzzle(puzzle)
+
+            if checkRules(puzzle):
+                pos += 1
+            else:
+                if not puzzle[row][col] > 8:
+                    puzzle[row][col] = puzzle[row][col] + 1
+                    displayPuzzle(puzzle)
+                else:
+                    puzzle[row][col] = 0
+                    pos -= 1
+                    if pos in origPuzz: pos -= 1
+                    displayPuzzle(puzzle)
+        else:
+            pos += 1
+    
+    return puzzle
+        
+
+
